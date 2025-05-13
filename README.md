@@ -1,6 +1,6 @@
 This is a plugin for Qmmp (1.6.0 or greater) visual.
 
-![Image](https://github.com/TTK-qmmp/qmmp-flowwave/blob/master/image/1.png?raw=true)
+![Image](https://github.com/TTK-qmmp/qmmp-matrix/blob/master/image/1.png?raw=true)
 
 The following packages are required, including development headers,
 which some vendors split into separate packages:
