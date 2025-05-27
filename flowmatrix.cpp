@@ -35,6 +35,7 @@ FlowMatrix::FlowMatrix(QWidget *parent)
 FlowMatrix::~FlowMatrix()
 {
     qDeleteAll(m_matrixs);
+    delete[] m_visualData;
 }
 
 void FlowMatrix::start()
@@ -151,12 +152,8 @@ void FlowMatrix::process(float *left, float *)
         m_rows = rows;
         m_cols = cols;
 
-        if(m_intern_vis_data)
-        {
-            delete[] m_intern_vis_data;
-        }
-
-        m_intern_vis_data = new int[m_cols * 2]{0};
+        delete[] m_visualData;
+        m_visualData = new int[m_cols * 2]{0};
     }
 
     const int step = (QMMP_VISUAL_NODE_SIZE << 8) / m_cols;
@@ -165,15 +162,15 @@ void FlowMatrix::process(float *left, float *)
     for(int i = 0; i < m_cols * 2; ++i)
     {
         pos += step;
-        m_intern_vis_data[i] = int(left[pos >> 8] * m_rows / 2);
-        m_intern_vis_data[i] = qBound(-m_rows / 2, m_intern_vis_data[i], m_rows / 2);
-        m_intern_vis_data[m_cols * 2 - i - 1] = m_intern_vis_data[i];
+        m_visualData[i] = int(left[pos >> 8] * m_rows / 2);
+        m_visualData[i] = qBound(-m_rows / 2, m_visualData[i], m_rows / 2);
+        m_visualData[m_cols * 2 - i - 1] = m_visualData[i];
     }
 
     int max = 0;
     for(int i = 0; i < m_rows * 2; ++i)
     {
-        const int value = std::abs(m_intern_vis_data[i]);
+        const int value = std::abs(m_visualData[i]);
         if(max < value)
         {
             max = value;
