@@ -30,7 +30,6 @@ void VisualMatrixFactory::showAbout(QWidget *parent)
 {
     QMessageBox::about(parent, tr("About Matrix Visual Plugin"),
                        tr("Qmmp Matrix Visual Plugin") + "\n" +
-                       tr("This plugin adds Matrix visualization") + "\n" +
                        tr("Written by: Greedysky <greedysky@163.com>"));
 }
 
