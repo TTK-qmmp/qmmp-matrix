@@ -24,6 +24,27 @@ void as_const(const T &&) = delete;
 #  define qAsConst std::as_const
 #endif
 
+static void adjustMenuPosition(QMenu *menu)
+{
+#if QT_VERSION >= QT_VERSION_CHECK(5,12,0)
+    QPixmap pix(15, 15);
+    pix.fill(Qt::transparent);
+
+    const QList<QAction*> actions(menu->actions());
+    if(!actions.empty())
+    {
+        QAction* action(actions.first());
+        if(action->icon().isNull())
+        {
+            action->setIcon(pix);
+        }
+    }
+#else
+    Q_UNUSED(menu);
+#endif
+}
+
+
 FlowMatrix::FlowMatrix(QWidget *parent)
     : Visual(parent)
 {
@@ -156,6 +177,8 @@ void FlowMatrix::contextMenuEvent(QContextMenuEvent *)
 {
     QMenu menu(this);
     menu.addAction(m_screenAction);
+
+    adjustMenuPosition(&menu);
     menu.exec(QCursor::pos());
 }
 
